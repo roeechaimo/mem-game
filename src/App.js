@@ -1,6 +1,7 @@
 import React from "react";
-import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { Link, BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
+import { ROUTES } from "./routes";
 
 function App() {
   return (
@@ -16,9 +17,13 @@ function App() {
           </nav>
 
           <Switch>
-            <Route path="/">
-              <div>home</div>
-            </Route>
+            {ROUTES.map((route, i) => (
+              <Route
+                key={i}
+                path={route.path}
+                render={props => <route.component {...props} />}
+              />
+            ))}
           </Switch>
         </div>
       </Router>
