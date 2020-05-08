@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { TEXTS } from "./../texts";
 import "./AppHeader.scss";
 
 function AppHeader() {
@@ -8,7 +9,7 @@ function AppHeader() {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">{TEXTS.AppHeader.gamePage}</Link>
           </li>
         </ul>
       </nav>
