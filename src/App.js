@@ -1,21 +1,16 @@
 import React from "react";
-import { Link, BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.scss";
 import { ROUTES } from "./routes";
+import AppHeader from "./AppHeader/AppHeader";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-            </ul>
-          </nav>
+        <AppHeader />
 
+        <div>
           <Switch>
             {ROUTES.map((route, i) => (
               <Route
