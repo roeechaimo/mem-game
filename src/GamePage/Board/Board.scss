@@ -1,0 +1,17 @@
+.board-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  .cell-wrapper {
+    flex: 0 0 25%;
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
