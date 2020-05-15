@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HELPERS } from "../../helpers";
 import { BLACK_BACKGROUND, IMAGES } from "./../../appData/images";
 import "./Board.scss";
@@ -26,49 +26,69 @@ function Board(props) {
   });
   const [boardImages, setBoardImages] = useState(null);
 
+  const prevImagesStateRef = useRef(imagesState);
+
   useEffect(() => {
     let timeout;
+    prevImagesStateRef.current = imagesState;
 
-    if (imagesState.activeCells[0] && imagesState.activeCells[1]) {
+    if (
+      imagesState.activeCells[0] !== null &&
+      imagesState.activeCells[1] !== null &&
+      prevImagesStateRef.current.revealedImages.length ===
+        imagesState.revealedImages.length
+    ) {
       timeout = setTimeout(() => {
-        setImagesState({
-          activeCells: [null, null],
-          revealedImages: imagesState.revealedImages
-        });
-      }, 3000);
+        setImagesState(prevState => ({
+          ...prevState,
+          activeCells: [null, null]
+        }));
+      }, 2000);
     }
 
-    return function cleanup() {
+    return () => {
       clearTimeout(timeout);
     };
   }, [imagesState]);
 
-  // FIXME - bug after match
   const onCellClick = cellIndex => {
-    if (!imagesState.activeCells[0] || !imagesState.activeCells[1]) {
+    if (
+      imagesState.activeCells[0] === null ||
+      imagesState.activeCells[1] === null
+    ) {
       if (imagesState.activeCells[0] === null) {
-        return setImagesState({
-          activeCells: [cellIndex, null],
-          revealedImages: imagesState.revealedImages
-        });
+        return setImagesState(prevState => ({
+          ...prevState,
+          activeCells: [cellIndex, null]
+        }));
       }
 
       if (
-        boardImages[imagesState.activeCells[0]].id === boardImages[cellIndex].id
+        boardImages[imagesState.activeCells[0]].id ===
+          boardImages[cellIndex].id &&
+        imagesState.activeCells[0] !== cellIndex
       ) {
         let copyOfRevealedImages = [...imagesState.revealedImages];
-        copyOfRevealedImages.push(boardImages[cellIndex].id);
+        if (!copyOfRevealedImages.includes(boardImages[cellIndex].id)) {
+          copyOfRevealedImages.push(boardImages[cellIndex].id);
 
-        return setImagesState({
-          activeCells: imagesState.activeCells,
-          revealedImages: copyOfRevealedImages
-        });
+          return setImagesState(prevState => ({
+            ...prevState,
+            activeCells: [null, null],
+            revealedImages: copyOfRevealedImages
+          }));
+        }
       }
 
-      return setImagesState({
-        activeCells: [imagesState.activeCells[0], cellIndex],
-        revealedImages: imagesState.revealedImages
-      });
+      if (
+        imagesState.activeCells[0] !== null &&
+        imagesState.activeCells[1] === null
+      ) {
+        return setImagesState(prevState => ({
+          ...prevState,
+          activeCells: [imagesState.activeCells[0], cellIndex]
+        }));
+      }
     }
   };
 
