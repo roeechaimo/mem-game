@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { TEXTS } from "./../texts";
-import "./AppHeader.scss";
+import "./appHeader.scss";
 
 function AppHeader() {
   return (

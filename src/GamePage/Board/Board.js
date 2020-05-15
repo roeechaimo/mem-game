@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { HELPERS } from "../../helpers";
 import { usePreviousState } from "../../hooks/UsePreviousState";
 import { BLACK_BACKGROUND, IMAGES } from "./../../appData/images";
-import "./Board.scss";
+import "./board.scss";
 
 function Cell(props) {
   const { imageUrl, isRevealed, onCellClick, index } = props;

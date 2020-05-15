@@ -1,14 +1,14 @@
 import React from "react";
-import { TEXTS } from "./../texts";
-import "./GamePage.scss";
 import Board from "./Board/Board";
+import Countdown from "./Counter/Countdown";
+import "./gamePage.scss";
 
 function GamePage() {
   return (
     <div className="container">
-      <h1>{TEXTS.GamePage.title}</h1>
-
       <Board cellNumber={16} />
+
+      <Countdown timeInMinutes={1} />
     </div>
   );
 }
