@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HELPERS } from "../../helpers";
+import { usePreviousState } from "../../hooks/UsePreviousState";
 import { BLACK_BACKGROUND, IMAGES } from "./../../appData/images";
 import "./Board.scss";
 
@@ -26,16 +27,15 @@ function Board(props) {
   });
   const [boardImages, setBoardImages] = useState(null);
 
-  const prevImagesStateRef = useRef(imagesState);
+  const prevImagesState = usePreviousState(imagesState);
 
   useEffect(() => {
     let timeout;
-    prevImagesStateRef.current = imagesState;
 
     if (
       imagesState.activeCells[0] !== null &&
       imagesState.activeCells[1] !== null &&
-      prevImagesStateRef.current.revealedImages.length ===
+      prevImagesState.revealedImages.length ===
         imagesState.revealedImages.length
     ) {
       timeout = setTimeout(() => {
@@ -49,7 +49,7 @@ function Board(props) {
     return () => {
       clearTimeout(timeout);
     };
-  }, [imagesState]);
+  }, [imagesState, prevImagesState]);
 
   const onCellClick = cellIndex => {
     if (
