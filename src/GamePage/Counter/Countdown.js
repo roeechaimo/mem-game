@@ -4,18 +4,10 @@ import "./countdown.scss";
 
 function Countdown(props) {
   const { timeInMinutes } = props;
-  const [time, setTime] = useState(
-    // new Date(`July 20, 69 00:0${timeInMinutes}:00`)
-    { minutes: timeInMinutes, seconds: 0 }
-  );
-
-  // const minutes = time.getMinutes();
-  // const seconds = time.getSeconds();
-  // const countdownParsed = `${minutes}:${seconds}`;
+  const [time, setTime] = useState({ minutes: timeInMinutes, seconds: 0 });
 
   const prevTimeState = usePreviousState(time);
 
-  // FIXME
   const calculateTime = () => {
     const { minutes, seconds } = time;
     let newMinutes = minutes;
@@ -27,9 +19,11 @@ function Countdown(props) {
     if (
       Number(minutes) > 0 &&
       Number(seconds) === 0 &&
-      Number(prevTimeState.seconds) === 1
+      (Number(prevTimeState?.seconds) === 1 ||
+        Number(prevTimeState?.seconds) === 0)
     ) {
       newMinutes = minutes - 1;
+      newSeconds = 59;
     }
 
     return { minutes: newMinutes, seconds: newSeconds };
@@ -41,7 +35,9 @@ function Countdown(props) {
       const { minutes, seconds } = calculateTime();
       if (Number(minutes) === 0 && Number(seconds) === 0) {
         // TODO - popup
-        return console.log("Game over, you lost.");
+        console.log("Game over, you lost.");
+
+        return clearInterval(interval);
       }
 
       setTime({ minutes, seconds });
@@ -52,9 +48,14 @@ function Countdown(props) {
     };
   });
 
+  let secondsAsString = time.seconds.toString();
+  if (secondsAsString.length < 2) {
+    secondsAsString = `0${secondsAsString}`;
+  }
+
   return (
     <div className="counter-wrapper">
-      <span>{`${time.minutes.toString()}:${time.seconds.toString()}`}</span>
+      <span>{`${time.minutes.toString()}:${secondsAsString}`}</span>
     </div>
   );
 }
