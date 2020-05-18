@@ -1,27 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactModal from "react-modal";
 import Board from "./Board/Board";
 import Countdown from "./Counter/Countdown";
 import "./gamePage.scss";
+import ChoseBoardModal from "./modals/ChoseBoardModal/ChoseBoardModal";
 
 function GamePage() {
-  // TODO - fix modal and render on beggining and end of game
+  const [timeInMinutes, setTimeInMinutes] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const setTime = time => {
+    setTimeInMinutes(time);
+  };
+
+  const onApproveClick = pieces => {
+    setIsModalOpen(false);
+    let time = 1;
+
+    if (pieces === 32) {
+      time = 2;
+    }
+
+    setTime(time);
+  };
 
   return (
     <div className="container">
-      <ReactModal
-        isOpen={false}
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-      >
-        <p>Modal Content</p>
-      </ReactModal>
+      <ChoseBoardModal
+        isModalOpen={isModalOpen}
+        onApproveClick={pieces => onApproveClick(pieces)}
+      />
 
       <Board cellNumber={16} />
 
-      <Countdown timeInMinutes={1} />
-
-      <button onClick={()}></button>
+      {timeInMinutes && <Countdown timeInMinutes={timeInMinutes} />}
     </div>
   );
 }
