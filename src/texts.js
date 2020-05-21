@@ -7,6 +7,13 @@ export const TEXTS = {
       title: "Chose your board",
       subtitle: "How many board pieces?",
       approveButton: "Approve"
+    },
+    Countdown: {
+      YouLostModal: {
+        title: "You lost!",
+        subtitle: "Click Approve to play again",
+        approveButton: "Approve"
+      }
     }
   }
 };
