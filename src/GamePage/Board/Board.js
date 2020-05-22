@@ -26,8 +26,10 @@ function Board(props) {
     revealedImages: []
   });
   const [boardImages, setBoardImages] = useState(null);
+  const [numberOfCells, setNumberOfCells] = useState(0);
 
   const prevImagesState = usePreviousState(imagesState);
+  const prevNumberOfCellsState = usePreviousState(numberOfCells);
 
   useEffect(() => {
     let timeout;
@@ -92,8 +94,13 @@ function Board(props) {
     }
   };
 
+  // FIXME - do this after the user lost the game
   const { cellNumber = 0 } = props;
-  if (cellNumber > 0 && boardImages === null) {
+  if (
+    cellNumber > 0 &&
+    boardImages === null
+    // prevNumberOfCellsState !== numberOfCells
+  ) {
     const boardCellNumber = cellNumber / 2;
     const slicedImages = IMAGES.slice(0, boardCellNumber);
     const slicedImages_1 = IMAGES.slice(0, boardCellNumber);

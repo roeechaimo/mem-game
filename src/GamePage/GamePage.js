@@ -10,6 +10,7 @@ function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
   const [isChoseBoardModalOpen, setIsChoseBoardModalOpen] = useState(true);
   const [isYouLostModalOpen, setIsYouLostModalOpen] = useState(false);
+  const [cellNumber, setCellNumber] = useState(0);
 
   const setTime = time => {
     setTimeInMinutes(time);
@@ -18,12 +19,16 @@ function GamePage() {
   const onChoseBoardModalApproveClick = pieces => {
     setIsChoseBoardModalOpen(false);
     let time = 1;
+    let cells = 16;
 
     if (pieces === 32) {
       time = 2;
+      cells = 32;
     }
 
     setTime(time);
+
+    setCellNumber(cells);
   };
 
   const onYouLostModalApproveClick = () => {
@@ -33,6 +38,8 @@ function GamePage() {
   };
 
   const onTimeIsUp = () => {
+    setCellNumber(0);
+
     setTimeInMinutes(null);
 
     setIsYouLostModalOpen(true);
@@ -50,7 +57,7 @@ function GamePage() {
         onApproveClick={() => onYouLostModalApproveClick()}
       />
 
-      <Board cellNumber={16} />
+      <Board cellNumber={cellNumber} />
 
       {timeInMinutes && (
         <Countdown
