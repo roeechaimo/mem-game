@@ -28,9 +28,13 @@ function GamePage() {
 
   const onYouLostModalApproveClick = () => {
     setIsYouLostModalOpen(false);
+
+    setIsChoseBoardModalOpen(true);
   };
 
   const onTimeIsUp = () => {
+    setTimeInMinutes(null);
+
     setIsYouLostModalOpen(true);
   };
 
