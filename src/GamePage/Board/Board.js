@@ -51,6 +51,7 @@ function Board(props) {
     };
   }, [imagesState, prevImagesState]);
 
+  // TODO - create popup in case of win
   const onCellClick = cellIndex => {
     if (
       imagesState.activeCells[0] === null ||
