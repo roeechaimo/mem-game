@@ -26,8 +26,7 @@ function Countdown(props) {
         Number(prevTimeState?.seconds) === 0)
     ) {
       newMinutes = minutes - 1;
-      // TODO - turn value back to 59
-      newSeconds = 5;
+      newSeconds = 59;
     }
 
     return {

@@ -4,7 +4,7 @@ import { BLACK_BACKGROUND } from "./../../appData/images";
 import "./board.scss";
 
 function Cell(props) {
-  const { imageUrl, isRevealed, onCellClick, index } = props;
+  const { imageUrl, isRevealed, onCellClick, index, style } = props;
   const blackBackground = BLACK_BACKGROUND.src;
   const src = isRevealed ? imageUrl : blackBackground;
 
@@ -13,7 +13,7 @@ function Cell(props) {
   };
 
   return (
-    <div className="cell-wrapper" onClick={() => onClick(index)}>
+    <div className="cell-wrapper" onClick={() => onClick(index)} style={style}>
       <img src={src} alt={blackBackground} />
     </div>
   );
@@ -93,7 +93,10 @@ function Board(props) {
   };
 
   return (
-    <div className="board-container">
+    <div
+      className="board-container"
+      style={{ width: boardImages?.length === 32 ? "100%" : {} }}
+    >
       {boardImages &&
         boardImages.map((image, index) => (
           <Cell
@@ -106,6 +109,7 @@ function Board(props) {
             imageUrl={image.src}
             onCellClick={cell => onCellClick(cell)}
             index={index}
+            style={{ flexBasis: boardImages?.length === 32 ? "12.5%" : {} }}
           />
         ))}
     </div>
