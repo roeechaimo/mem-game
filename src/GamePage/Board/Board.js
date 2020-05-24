@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { HELPERS } from "../../helpers";
 import { usePreviousState } from "../../hooks/UsePreviousState";
-import { BLACK_BACKGROUND, IMAGES } from "./../../appData/images";
+import { BLACK_BACKGROUND } from "./../../appData/images";
 import "./board.scss";
 
 function Cell(props) {
@@ -25,11 +24,10 @@ function Board(props) {
     activeCells: [null, null],
     revealedImages: []
   });
-  const [boardImages, setBoardImages] = useState(null);
-  const [numberOfCells, setNumberOfCells] = useState(0);
+
+  const { boardImages } = props;
 
   const prevImagesState = usePreviousState(imagesState);
-  const prevNumberOfCellsState = usePreviousState(numberOfCells);
 
   useEffect(() => {
     let timeout;
@@ -93,21 +91,6 @@ function Board(props) {
       }
     }
   };
-
-  // FIXME - do this after the user lost the game
-  const { cellNumber = 0 } = props;
-  if (
-    cellNumber > 0 &&
-    boardImages === null
-    // prevNumberOfCellsState !== numberOfCells
-  ) {
-    const boardCellNumber = cellNumber / 2;
-    const slicedImages = IMAGES.slice(0, boardCellNumber);
-    const slicedImages_1 = IMAGES.slice(0, boardCellNumber);
-    const imagesDoubbled = [...slicedImages, ...slicedImages_1];
-
-    setBoardImages(HELPERS.shuffleArray(imagesDoubbled));
-  }
 
   return (
     <div className="board-container">

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
+import { IMAGES } from "../appData/images";
+import { HELPERS } from "../helpers";
 import Board from "./Board/Board";
 import Countdown from "./Counter/Countdown";
 import "./gamePage.scss";
@@ -10,7 +12,18 @@ function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
   const [isChoseBoardModalOpen, setIsChoseBoardModalOpen] = useState(true);
   const [isYouLostModalOpen, setIsYouLostModalOpen] = useState(false);
-  const [cellNumber, setCellNumber] = useState(0);
+  const [boardImages, setBoardImages] = useState(null);
+
+  const buildBoardImages = cellNumber => {
+    if (cellNumber) {
+      const boardCellNumber = cellNumber / 2;
+      const slicedImages = IMAGES.slice(0, boardCellNumber);
+      const slicedImages_1 = IMAGES.slice(0, boardCellNumber);
+      const imagesDoubbled = [...slicedImages, ...slicedImages_1];
+
+      setBoardImages(HELPERS.shuffleArray(imagesDoubbled));
+    }
+  };
 
   const setTime = time => {
     setTimeInMinutes(time);
@@ -28,7 +41,7 @@ function GamePage() {
 
     setTime(time);
 
-    setCellNumber(cells);
+    buildBoardImages(cells);
   };
 
   const onYouLostModalApproveClick = () => {
@@ -38,7 +51,7 @@ function GamePage() {
   };
 
   const onTimeIsUp = () => {
-    setCellNumber(0);
+    buildBoardImages(0);
 
     setTimeInMinutes(null);
 
@@ -57,7 +70,7 @@ function GamePage() {
         onApproveClick={() => onYouLostModalApproveClick()}
       />
 
-      <Board cellNumber={cellNumber} />
+      <Board boardImages={boardImages} />
 
       {timeInMinutes && (
         <Countdown
