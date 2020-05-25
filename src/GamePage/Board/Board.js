@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { usePreviousState } from "../../hooks/UsePreviousState";
 import { BLACK_BACKGROUND } from "./../../appData/images";
 import "./board.scss";
+import { TEXTS } from "../../texts";
 
 function Cell(props) {
   const { imageUrl, isRevealed, onCellClick, index, style } = props;
@@ -25,7 +26,7 @@ function Board(props) {
     revealedImages: []
   });
 
-  const { boardImages } = props;
+  const { boardImages, onGameOver } = props;
 
   const prevImagesState = usePreviousState(imagesState);
 
@@ -44,6 +45,17 @@ function Board(props) {
           activeCells: [null, null]
         }));
       }, 2000);
+    }
+
+    // FIXME - boardImages stays instead of turn black
+    if (imagesState?.revealedImages?.length * 2 === boardImages?.length) {
+      setImagesState(prevState => ({
+        ...prevState,
+        revealedImages: []
+      }));
+
+      typeof onGameOver === "function" &&
+        onGameOver(TEXTS.GamePage.Countdown.GameOverModal.YouWinTitle);
     }
 
     return () => {

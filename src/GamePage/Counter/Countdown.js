@@ -3,7 +3,7 @@ import { usePreviousState } from "../../hooks/UsePreviousState";
 import "./countdown.scss";
 
 function Countdown(props) {
-  const { timeInMinutes, onTimeIsUp } = props;
+  const { timeInMinutes, onGameOver } = props;
   const [time, setTime] = useState({
     minutes: timeInMinutes,
     seconds: 0
@@ -46,7 +46,7 @@ function Countdown(props) {
         prevTimeState?.seconds !== 1 &&
         prevTimeState?.seconds !== 0
       ) {
-        typeof onTimeIsUp === "function" && onTimeIsUp();
+        typeof onGameOver === "function" && onGameOver();
 
         return clearInterval(interval);
       }

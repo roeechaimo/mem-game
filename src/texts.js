@@ -9,8 +9,9 @@ export const TEXTS = {
       approveButton: "Approve"
     },
     Countdown: {
-      YouLostModal: {
-        title: "You lost!",
+      GameOverModal: {
+        YouLostTitle: "You lost!",
+        YouWinTitle: "You win!",
         subtitle: "Click Approve to play again",
         approveButton: "Approve"
       }

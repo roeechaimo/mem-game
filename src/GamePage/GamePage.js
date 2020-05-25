@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import ReactModal from "react-modal";
 import { IMAGES } from "../appData/images";
 import { HELPERS } from "../helpers";
@@ -6,12 +6,16 @@ import Board from "./Board/Board";
 import Countdown from "./Counter/Countdown";
 import "./gamePage.scss";
 import ChoseBoardModal from "./modals/ChoseBoardModal/ChoseBoardModal";
-import YouLostModal from "./modals/YouLostModal/YouLostModal";
+import GameOverModal from "./modals/GameOverModal/GameOverModal";
+import { TEXTS } from "../texts";
 
 function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
   const [isChoseBoardModalOpen, setIsChoseBoardModalOpen] = useState(true);
-  const [isYouLostModalOpen, setIsYouLostModalOpen] = useState(false);
+  const [isGameOverModalOpen, setIsGameOverModalOpen] = useState(false);
+  const [gameOverModalTitle, setGameOverModalTitle] = useState(
+    TEXTS.GamePage.Countdown.GameOverModal.youLostTitle
+  );
   const [boardImages, setBoardImages] = useState(null);
 
   const buildBoardImages = cellNumber => {
@@ -21,8 +25,10 @@ function GamePage() {
       const slicedImages_1 = IMAGES.slice(0, boardCellNumber);
       const imagesDoubbled = [...slicedImages, ...slicedImages_1];
 
-      setBoardImages(HELPERS.shuffleArray(imagesDoubbled));
+      return setBoardImages(HELPERS.shuffleArray(imagesDoubbled));
     }
+
+    return setBoardImages(cellNumber);
   };
 
   const setTime = time => {
@@ -44,18 +50,23 @@ function GamePage() {
     buildBoardImages(cells);
   };
 
-  const onYouLostModalApproveClick = () => {
-    setIsYouLostModalOpen(false);
+  const onGameOverModalApproveClick = () => {
+    setIsGameOverModalOpen(false);
 
     setIsChoseBoardModalOpen(true);
   };
 
-  const onTimeIsUp = () => {
+  const onGameOver = title => {
     buildBoardImages(0);
+
+    // FIXME - title wont update
+    if (title) {
+      setGameOverModalTitle(title);
+    }
 
     setTimeInMinutes(null);
 
-    setIsYouLostModalOpen(true);
+    setIsGameOverModalOpen(true);
   };
 
   return (
@@ -65,17 +76,21 @@ function GamePage() {
         onApproveClick={pieces => onChoseBoardModalApproveClick(pieces)}
       />
 
-      <YouLostModal
-        isModalOpen={isYouLostModalOpen}
-        onApproveClick={() => onYouLostModalApproveClick()}
+      <GameOverModal
+        isModalOpen={isGameOverModalOpen}
+        onApproveClick={() => onGameOverModalApproveClick()}
+        title={gameOverModalTitle}
       />
 
-      <Board boardImages={boardImages} />
+      <Board
+        boardImages={boardImages}
+        onGameOver={title => onGameOver(title)}
+      />
 
       {timeInMinutes && (
         <Countdown
           timeInMinutes={timeInMinutes}
-          onTimeIsUp={() => onTimeIsUp()}
+          onGameOver={title => onGameOver(title)}
         />
       )}
     </div>

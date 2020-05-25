@@ -1,10 +1,10 @@
 import React from "react";
 import ReactModal from "react-modal";
-import "./youLostModal.scss";
-import { TEXTS } from "./../../../texts";
+import "./gameOverModal.scss";
+import { TEXTS } from "../../../texts";
 
-function YouLostModal(props) {
-  const { isModalOpen, onApproveClick } = props;
+function GameOverModal(props) {
+  const { isModalOpen, onApproveClick, title } = props;
 
   // TODO - style
   return (
@@ -17,12 +17,12 @@ function YouLostModal(props) {
         content: { top: "30%", right: "30%", bottom: "30%", left: "30%" }
       }}
     >
-      <h3>{TEXTS.GamePage.Countdown.YouLostModal.title}</h3>
+      <h3>{title}</h3>
 
-      <h5>{TEXTS.GamePage.Countdown.YouLostModal.subtitle}</h5>
+      <h5>{TEXTS.GamePage.Countdown.GameOverModal.subtitle}</h5>
 
       <button onClick={() => onApproveClick()}>
-        {TEXTS.GamePage.Countdown.YouLostModal.approveButton}
+        {TEXTS.GamePage.Countdown.GameOverModal.approveButton}
       </button>
     </ReactModal>
   );
@@ -30,4 +30,4 @@ function YouLostModal(props) {
 
 ReactModal.setAppElement("#root");
 
-export default YouLostModal;
+export default GameOverModal;
