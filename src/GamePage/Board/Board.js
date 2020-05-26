@@ -47,7 +47,6 @@ function Board(props) {
       }, 2000);
     }
 
-    // FIXME - boardImages stays instead of turn black
     if (imagesState?.revealedImages?.length * 2 === boardImages?.length) {
       setImagesState(prevState => ({
         ...prevState,
@@ -58,12 +57,18 @@ function Board(props) {
         onGameOver(TEXTS.GamePage.Countdown.GameOverModal.YouWinTitle);
     }
 
+    if (boardImages === 0 && prevImagesState?.revealedImages?.length > 0) {
+      setImagesState(prevState => ({
+        ...prevState,
+        revealedImages: []
+      }));
+    }
+
     return () => {
       clearTimeout(timeout);
     };
-  }, [imagesState, prevImagesState]);
+  }, [imagesState, prevImagesState, onGameOver, boardImages]);
 
-  // TODO - create popup in case of win
   const onCellClick = cellIndex => {
     if (
       imagesState.activeCells[0] === null ||

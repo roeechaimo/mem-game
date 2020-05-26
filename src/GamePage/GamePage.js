@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import ReactModal from "react-modal";
 import { IMAGES } from "../appData/images";
 import { HELPERS } from "../helpers";
+import { TEXTS } from "../texts";
 import Board from "./Board/Board";
 import Countdown from "./Counter/Countdown";
 import "./gamePage.scss";
 import ChoseBoardModal from "./modals/ChoseBoardModal/ChoseBoardModal";
 import GameOverModal from "./modals/GameOverModal/GameOverModal";
-import { TEXTS } from "../texts";
 
 function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
@@ -58,8 +58,6 @@ function GamePage() {
 
   const onGameOver = title => {
     buildBoardImages(0);
-
-    // FIXME - title wont update
     if (title) {
       setGameOverModalTitle(title);
     }

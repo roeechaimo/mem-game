@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { usePreviousState } from "../../hooks/UsePreviousState";
 import "./countdown.scss";
+import { TEXTS } from "../../texts";
 
 function Countdown(props) {
   const { timeInMinutes, onGameOver } = props;
@@ -11,7 +12,7 @@ function Countdown(props) {
 
   const prevTimeState = usePreviousState(time);
 
-  const calculateTime = () => {
+  const calculateTime = useCallback(() => {
     const { minutes, seconds } = time;
     let newMinutes = minutes;
     let newSeconds = seconds;
@@ -33,7 +34,7 @@ function Countdown(props) {
       minutes: newMinutes,
       seconds: newSeconds
     };
-  };
+  }, [time, prevTimeState]);
 
   useEffect(() => {
     let interval;
@@ -46,7 +47,8 @@ function Countdown(props) {
         prevTimeState?.seconds !== 1 &&
         prevTimeState?.seconds !== 0
       ) {
-        typeof onGameOver === "function" && onGameOver();
+        typeof onGameOver === "function" &&
+          onGameOver(TEXTS.GamePage.Countdown.GameOverModal.YouLostTitle);
 
         return clearInterval(interval);
       }
@@ -57,7 +59,7 @@ function Countdown(props) {
     return () => {
       clearInterval(interval);
     };
-  }, [time, timeInMinutes]);
+  }, [time, timeInMinutes, onGameOver, prevTimeState, calculateTime]);
 
   let secondsAsString = time.seconds.toString();
   if (secondsAsString.length < 2) {
