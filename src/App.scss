@@ -1,0 +1,26 @@
+@import "./styles/variables.scss";
+
+html {
+  height: 100%;
+  font-family: $app-font;
+  margin: 0;
+
+  body {
+    height: inherit;
+    margin: 0;
+
+    div#root {
+      height: inherit;
+
+      div.app {
+        height: inherit;
+        background: rgb(121, 114, 9);
+        background: linear-gradient(
+          90deg,
+          rgba(121, 114, 9, 1) 0%,
+          rgba(210, 231, 213, 1) 0%
+        );
+      }
+    }
+  }
+}

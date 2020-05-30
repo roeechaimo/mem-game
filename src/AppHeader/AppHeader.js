@@ -5,13 +5,11 @@ import "./appHeader.scss";
 
 function AppHeader() {
   return (
-    <div className="container">
+    <div className="header-container">
       <nav>
-        <ul>
-          <li>
-            <Link to="/">{TEXTS.AppHeader.gamePage}</Link>
-          </li>
-        </ul>
+        <div className="header-item active">
+          <Link to="/">{TEXTS.AppHeader.gamePage}</Link>
+        </div>
       </nav>
     </div>
   );

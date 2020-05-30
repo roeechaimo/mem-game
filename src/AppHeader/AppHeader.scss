@@ -1,0 +1,28 @@
+@import "./../styles/variables.scss";
+
+div.header-container {
+  nav {
+    height: 5vh;
+    padding: 1.5%;
+    border-bottom: 1px solid $black;
+    display: flex;
+
+    div.header-item {
+      height: inherit;
+      flex: 0 0 10%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      a {
+        color: $black;
+        text-decoration: unset;
+      }
+    }
+
+    div.header-item.active {
+      border: 1px solid $black;
+      border-radius: 5px;
+    }
+  }
+}
