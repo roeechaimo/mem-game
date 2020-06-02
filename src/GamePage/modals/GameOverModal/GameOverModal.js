@@ -2,6 +2,7 @@ import React from "react";
 import ReactModal from "react-modal";
 import "./gameOverModal.scss";
 import { TEXTS } from "../../../texts";
+import AppButton from "../../../appButton/AppButton";
 
 function GameOverModal(props) {
   const { isModalOpen, onApproveClick, title } = props;
@@ -21,9 +22,10 @@ function GameOverModal(props) {
 
       <h5>{TEXTS.GamePage.Countdown.GameOverModal.subtitle}</h5>
 
-      <button onClick={() => onApproveClick()}>
-        {TEXTS.GamePage.Countdown.GameOverModal.approveButton}
-      </button>
+      <AppButton
+        text={TEXTS.GamePage.Countdown.GameOverModal.approveButton}
+        onClick={() => onApproveClick()}
+      />
     </ReactModal>
   );
 }

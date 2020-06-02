@@ -1,0 +1,8 @@
+@import "./../styles/variables.scss";
+
+button.app-button {
+  background-color: $button-background;
+  border: 1px solid $black;
+  border-radius: 3px;
+  font-family: $app-font;
+}

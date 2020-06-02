@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ReactModal from "react-modal";
 import "./choseBoardModal.scss";
 import { TEXTS } from "./../../../texts";
+import AppButton from "../../../appButton/AppButton";
 
 function ChoseBoardModal(props) {
   const { isModalOpen, onApproveClick } = props;
@@ -42,9 +43,10 @@ function ChoseBoardModal(props) {
         32
       </div>
 
-      <button onClick={() => onApproveClick(pieces)}>
-        {TEXTS.GamePage.ChoseBoardModal.approveButton}
-      </button>
+      <AppButton
+        text={TEXTS.GamePage.ChoseBoardModal.approveButton}
+        onClick={() => onApproveClick(pieces)}
+      />
     </ReactModal>
   );
 }
