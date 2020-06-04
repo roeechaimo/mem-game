@@ -27,20 +27,12 @@ function ChoseBoardModal(props) {
 
       <h5>{TEXTS.GamePage.ChoseBoardModal.subtitle}</h5>
 
-      <div
-        id="1"
-        onClick={() => selectPieces(16)}
-        className={pieces === 16 ? "selected" : ""}
-      >
-        16
+      <div className="option-wrapper" id="1" onClick={() => selectPieces(16)}>
+        <span className={pieces === 16 ? "selected" : ""}>16</span>
       </div>
 
-      <div
-        id="2"
-        onClick={() => selectPieces(32)}
-        className={pieces === 32 ? "selected" : ""}
-      >
-        32
+      <div className="option-wrapper" id="2" onClick={() => selectPieces(32)}>
+        <span className={pieces === 32 ? "selected" : ""}>32</span>
       </div>
 
       <AppButton

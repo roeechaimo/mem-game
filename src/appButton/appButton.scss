@@ -6,3 +6,7 @@ button.app-button {
   border-radius: 3px;
   font-family: $app-font;
 }
+
+button.app-button:hover {
+  cursor: pointer;
+}
