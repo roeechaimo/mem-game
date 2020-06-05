@@ -1,20 +1,18 @@
 @import "./../../../styles/variables.scss";
 
-div.option-wrapper {
-  padding: 0.5%;
+.app-modal {
+  div.option-wrapper {
+    padding: 0.5%;
 
-  span.selected {
-    border: 1px solid $black;
-    border-radius: 3px;
+    span.selected {
+      border: 1px solid $black;
+      border-radius: 3px;
+    }
+    & span {
+      padding: 0.2vw;
+    }
+    & span:hover {
+      cursor: pointer;
+    }
   }
-  & span {
-    padding: 0.2vw;
-  }
-  & span:hover {
-    cursor: pointer;
-  }
-}
-
-.app-button {
-  margin-top: 1%;
 }

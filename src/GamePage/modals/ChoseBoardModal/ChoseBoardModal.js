@@ -12,16 +12,12 @@ function ChoseBoardModal(props) {
     setPieces(piecesNumber);
   };
 
-  // TODO - style
   return (
     <ReactModal
       isOpen={isModalOpen}
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
-      style={{
-        overlay: {},
-        content: { top: "20%", right: "20%", bottom: "20%", left: "20%" }
-      }}
+      className="app-modal"
     >
       <h3>{TEXTS.GamePage.ChoseBoardModal.title}</h3>
 

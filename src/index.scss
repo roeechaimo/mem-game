@@ -1,0 +1,32 @@
+@import "./styles/variables.scss";
+
+.app-modal {
+  position: absolute;
+  top: 20%;
+  right: 20%;
+  bottom: 20%;
+  left: 20%;
+  background-color: $modal-background;
+  border: 1px solid $shadow;
+  padding: 2vw;
+  border-radius: 3px;
+  outline: none;
+
+  .app-button {
+    margin: 0 auto;
+    display: flex;
+    padding: 1% 5%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .app-modal {
+    right: 10%;
+    left: 10%;
+
+    .app-button {
+      padding: 3% 10%;
+      font-size: 1em;
+    }
+  }
+}

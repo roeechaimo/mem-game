@@ -7,16 +7,12 @@ import AppButton from "../../../appButton/AppButton";
 function GameOverModal(props) {
   const { isModalOpen, onApproveClick, title } = props;
 
-  // TODO - style
   return (
     <ReactModal
       isOpen={isModalOpen}
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
-      style={{
-        overlay: {},
-        content: { top: "30%", right: "30%", bottom: "30%", left: "30%" }
-      }}
+      className="app-modal"
     >
       <h3>{title}</h3>
 
