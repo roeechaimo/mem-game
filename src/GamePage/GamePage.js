@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import { IMAGES } from "../appData/images";
 import { HELPERS } from "../helpers";
@@ -8,6 +8,7 @@ import Countdown from "./Counter/Countdown";
 import "./gamePage.scss";
 import ChoseBoardModal from "./modals/ChoseBoardModal/ChoseBoardModal";
 import GameOverModal from "./modals/GameOverModal/GameOverModal";
+import firstoreService from "../firebase/firestoreService";
 
 function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
@@ -17,12 +18,28 @@ function GamePage() {
     TEXTS.GamePage.Countdown.GameOverModal.youLostTitle
   );
   const [boardImages, setBoardImages] = useState(null);
+  const [images, setImages] = useState(null);
+
+  useEffect(() => {
+    if (images === null) {
+      firstoreService.getBoardImages().then(collection => {
+        let docs = [];
+        collection.forEach(doc => {
+          const { id, src } = doc.data();
+
+          docs.push({ id, src });
+        });
+
+        setImages(docs);
+      });
+    }
+  }, [images]);
 
   const buildBoardImages = cellNumber => {
     if (cellNumber) {
       const boardCellNumber = cellNumber / 2;
-      const slicedImages = IMAGES.slice(0, boardCellNumber);
-      const slicedImages_1 = IMAGES.slice(0, boardCellNumber);
+      const slicedImages = images.slice(0, boardCellNumber);
+      const slicedImages_1 = images.slice(0, boardCellNumber);
       const imagesDoubbled = [...slicedImages, ...slicedImages_1];
 
       return setBoardImages(HELPERS.shuffleArray(imagesDoubbled));
