@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { usePreviousState } from "../../hooks/UsePreviousState";
+import { TEXTS } from "../../texts";
 import { BLACK_BACKGROUND } from "./../../appData/images";
 import "./board.scss";
-import { TEXTS } from "../../texts";
 
 function Cell(props) {
   const { imageUrl, isRevealed, onCellClick, index, style } = props;
   const blackBackground = BLACK_BACKGROUND.src;
+
   const src = isRevealed ? imageUrl : blackBackground;
 
   const onClick = index => {

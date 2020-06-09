@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
-import { IMAGES } from "../appData/images";
+import firstoreService from "../firebase/firestoreService";
 import { HELPERS } from "../helpers";
 import { TEXTS } from "../texts";
 import Board from "./Board/Board";
@@ -8,7 +8,6 @@ import Countdown from "./Counter/Countdown";
 import "./gamePage.scss";
 import ChoseBoardModal from "./modals/ChoseBoardModal/ChoseBoardModal";
 import GameOverModal from "./modals/GameOverModal/GameOverModal";
-import firstoreService from "../firebase/firestoreService";
 
 function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
@@ -26,11 +25,18 @@ function GamePage() {
         let docs = [];
         collection.forEach(doc => {
           const { id, src } = doc.data();
+          const bucketUrlRef = firstoreService.bucketUrl;
+          bucketUrlRef
+            .child(src)
+            .getDownloadURL()
+            .then(url => {
+              docs.push({ id, src: url });
 
-          docs.push({ id, src });
+              if (docs.length === collection.size) {
+                setImages(docs);
+              }
+            });
         });
-
-        setImages(docs);
       });
     }
   }, [images]);
