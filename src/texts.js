@@ -1,3 +1,5 @@
+// TODO - move to outer file
+
 export const TEXTS = {
   AppHeader: {
     gamePage: "Game page"

@@ -108,7 +108,7 @@ function GamePage() {
         onGameOver={title => onGameOver(title)}
       />
 
-      {timeInMinutes && (
+      {timeInMinutes && !isChoseBoardModalOpen && !isGameOverModalOpen && (
         <Countdown
           timeInMinutes={timeInMinutes}
           onGameOver={title => onGameOver(title)}
