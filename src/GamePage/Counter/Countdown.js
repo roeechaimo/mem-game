@@ -66,9 +66,12 @@ function Countdown(props) {
     secondsAsString = `0${secondsAsString}`;
   }
 
+  // FIXME - don't show counter whenn game is over
   return (
     <div className="counter-wrapper">
-      <span>{`${time.minutes.toString()}:${secondsAsString}`}</span>
+      <span>{`${time.minutes.toString()}:${
+        secondsAsString !== "0" ? secondsAsString : ""
+      }`}</span>
     </div>
   );
 }
