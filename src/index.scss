@@ -11,9 +11,13 @@
   padding: 2vw;
   border-radius: 3px;
   outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   .app-button {
-    margin: 0 auto;
+    margin: 1%;
     display: flex;
     padding: 1% 5%;
   }

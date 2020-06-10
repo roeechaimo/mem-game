@@ -4,7 +4,7 @@ export const TEXTS = {
   },
   GamePage: {
     ChoseBoardModal: {
-      title: "Chose your board",
+      title: "Chose your board size",
       subtitle: "How many board pieces?",
       approveButton: "Approve"
     },
