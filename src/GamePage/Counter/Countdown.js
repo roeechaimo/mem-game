@@ -7,8 +7,7 @@ function Countdown(props) {
   const { timeInMinutes, onGameOver } = props;
   const [time, setTime] = useState({
     minutes: timeInMinutes,
-    // minutes: 0,
-    seconds: 5
+    seconds: 0
   });
 
   const prevTimeState = usePreviousState(time);

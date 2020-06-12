@@ -20,6 +20,8 @@ html {
           rgba(121, 114, 9, 1) 0%,
           rgba(210, 231, 213, 1) 0%
         );
+        display: flex;
+        flex-direction: column;
       }
     }
   }

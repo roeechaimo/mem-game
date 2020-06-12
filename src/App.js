@@ -10,17 +10,15 @@ function App() {
       <Router>
         <AppHeader />
 
-        <div>
-          <Switch>
-            {ROUTES.map((route, i) => (
-              <Route
-                key={i}
-                path={route.path}
-                render={props => <route.component {...props} />}
-              />
-            ))}
-          </Switch>
-        </div>
+        <Switch>
+          {ROUTES.map((route, i) => (
+            <Route
+              key={i}
+              path={route.path}
+              render={props => <route.component {...props} />}
+            />
+          ))}
+        </Switch>
       </Router>
     </div>
   );
