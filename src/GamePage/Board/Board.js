@@ -52,7 +52,7 @@ function Board(props) {
           ...prevState,
           activeCells: [null, null]
         }));
-      }, 2000);
+      }, 1000);
     }
 
     if (imagesState?.revealedImages?.length * 2 === boardImages?.length) {

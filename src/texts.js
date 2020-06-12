@@ -6,16 +6,16 @@ export const TEXTS = {
   },
   GamePage: {
     ChoseBoardModal: {
-      title: "Chose your board size",
+      title: "Select your board size",
       subtitle: "How many board pieces?",
-      approveButton: "Approve"
+      approveButton: "Let's play"
     },
     Countdown: {
       GameOverModal: {
-        YouLostTitle: "You lost!",
-        YouWinTitle: "You win!",
-        subtitle: "Click Approve to play again",
-        approveButton: "Approve"
+        YouLostTitle: "Time is up!",
+        YouWinTitle: "Good job!",
+        subtitle: "Want to play again?",
+        approveButton: "Let's play"
       }
     }
   }
