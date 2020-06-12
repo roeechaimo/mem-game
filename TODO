@@ -1,0 +1,12 @@
+✔ Fix counter to be shown only when game is on. @done(20-06-12 14:45)
+☐ Fix black background to come from firebase instead of localy
+☐ Move counter to the bottom of the page.
+☐ Handle responsive 32 pieces game.
+☐ Change texts.
+☐ Fetch texts from firebase.
+☐ Show result at the end of the game.
+☐ Save images locally after fetching them from forebase.
+☐ Create loader.
+☐ Create loading page.
+☐ Add option to start a new game in the middle of an existing game.
+☐ Add option to pause and play.

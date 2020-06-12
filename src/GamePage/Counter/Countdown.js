@@ -6,8 +6,9 @@ import { TEXTS } from "../../texts";
 function Countdown(props) {
   const { timeInMinutes, onGameOver } = props;
   const [time, setTime] = useState({
-    minutes: timeInMinutes,
-    seconds: 0
+    // minutes: timeInMinutes,
+    minutes: 0,
+    seconds: 5
   });
 
   const prevTimeState = usePreviousState(time);
@@ -66,12 +67,9 @@ function Countdown(props) {
     secondsAsString = `0${secondsAsString}`;
   }
 
-  // FIXME - don't show counter whenn game is over
   return (
     <div className="counter-wrapper">
-      <span>{`${time.minutes.toString()}:${
-        secondsAsString !== "0" ? secondsAsString : ""
-      }`}</span>
+      <span>{`${time.minutes.toString()}:${secondsAsString}`}</span>
     </div>
   );
 }

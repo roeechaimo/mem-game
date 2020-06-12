@@ -80,7 +80,7 @@ function GamePage() {
   };
 
   const onGameOver = title => {
-    buildBoardImages(0);
+    buildBoardImages(null);
     if (title) {
       setGameOverModalTitle(title);
     }

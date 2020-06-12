@@ -58,7 +58,7 @@ function Board(props) {
         onGameOver(TEXTS.GamePage.Countdown.GameOverModal.YouWinTitle);
     }
 
-    if (boardImages === 0 && prevImagesState?.revealedImages?.length > 0) {
+    if (boardImages === null && prevImagesState?.revealedImages?.length > 0) {
       setImagesState(prevState => ({
         ...prevState,
         revealedImages: []
