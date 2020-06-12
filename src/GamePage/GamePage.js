@@ -18,21 +18,28 @@ function GamePage() {
   );
   const [boardImages, setBoardImages] = useState(null);
   const [images, setImages] = useState(null);
+  const [defaultImage, setDefaultImage] = useState(null);
 
   useEffect(() => {
     if (images === null) {
       firstoreService.getBoardImages().then(collection => {
         let docs = [];
+        let defaultBackground;
         collection.forEach(doc => {
-          const { id, src } = doc.data();
+          const { id, src, isDefaultBackground } = doc.data();
           const bucketUrlRef = firstoreService.bucketUrl;
           bucketUrlRef
             .child(src)
             .getDownloadURL()
             .then(url => {
-              docs.push({ id, src: url });
+              if (!isDefaultBackground) {
+                docs.push({ id, src: url });
+              } else {
+                defaultBackground = { id, src: url };
+              }
 
-              if (docs.length === collection.size) {
+              if (docs.length === collection.size - 1) {
+                setDefaultImage(defaultBackground);
                 setImages(docs);
               }
             });
@@ -105,6 +112,7 @@ function GamePage() {
 
       <Board
         boardImages={boardImages}
+        defaultBackground={defaultImage}
         onGameOver={title => onGameOver(title)}
       />
 

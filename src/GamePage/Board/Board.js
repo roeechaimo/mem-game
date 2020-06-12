@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { usePreviousState } from "../../hooks/UsePreviousState";
 import { TEXTS } from "../../texts";
-import { BLACK_BACKGROUND } from "./../../appData/images";
 import "./board.scss";
 
 function Cell(props) {
-  const { imageUrl, isRevealed, onCellClick, index, style } = props;
-  const blackBackground = BLACK_BACKGROUND.src;
+  const {
+    imageUrl,
+    isRevealed,
+    onCellClick,
+    index,
+    style,
+    defaultBackground
+  } = props;
+  // const blackBackground = BLACK_BACKGROUND.src;
+  const blackBackground = defaultBackground?.src;
 
   const src = isRevealed ? imageUrl : blackBackground;
 
@@ -27,7 +34,7 @@ function Board(props) {
     revealedImages: []
   });
 
-  const { boardImages, onGameOver } = props;
+  const { boardImages, onGameOver, defaultBackground } = props;
 
   const prevImagesState = usePreviousState(imagesState);
 
@@ -129,6 +136,7 @@ function Board(props) {
             onCellClick={cell => onCellClick(cell)}
             index={index}
             style={{ flexBasis: boardImages?.length === 32 ? "12.5%" : {} }}
+            defaultBackground={defaultBackground}
           />
         ))}
     </div>

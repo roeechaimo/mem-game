@@ -6,8 +6,8 @@ import { TEXTS } from "../../texts";
 function Countdown(props) {
   const { timeInMinutes, onGameOver } = props;
   const [time, setTime] = useState({
-    // minutes: timeInMinutes,
-    minutes: 0,
+    minutes: timeInMinutes,
+    // minutes: 0,
     seconds: 5
   });
 
