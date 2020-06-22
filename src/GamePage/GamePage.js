@@ -8,6 +8,7 @@ import Countdown from "./Counter/Countdown";
 import "./gamePage.scss";
 import ChoseBoardModal from "./modals/ChoseBoardModal/ChoseBoardModal";
 import GameOverModal from "./modals/GameOverModal/GameOverModal";
+import { GameTimeContext } from "../contexts/gameTimeContext";
 
 function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
@@ -16,9 +17,14 @@ function GamePage() {
   const [gameOverModalTitle, setGameOverModalTitle] = useState(
     TEXTS.GamePage.Countdown.GameOverModal.youLostTitle
   );
+  const [gameOverModalSubtitle, setGameOverModalSubtitle] = useState(null);
   const [boardImages, setBoardImages] = useState(null);
   const [images, setImages] = useState(null);
   const [defaultImage, setDefaultImage] = useState(null);
+  const [gameTime, setGameTime] = useState({
+    gameTime: null,
+    postGameTime: time => setGameTime({ ...gameTime, gameTime: time })
+  });
 
   useEffect(() => {
     if (images === null) {
@@ -90,6 +96,17 @@ function GamePage() {
     buildBoardImages(null);
     if (title) {
       setGameOverModalTitle(title);
+
+      const { minutes, seconds } = gameTime?.gameTime;
+      let secondsAsStr = (seconds - 1)?.toString();
+
+      if (secondsAsStr?.length === 1) {
+        secondsAsStr = `0${secondsAsStr}`;
+      }
+
+      setGameOverModalSubtitle(
+        `${TEXTS.GamePage.Countdown.GameOverModal.subtitle}0${minutes}:${secondsAsStr}`
+      );
     }
 
     setTimeInMinutes(null);
@@ -99,29 +116,32 @@ function GamePage() {
 
   return (
     <div className="container">
-      <ChoseBoardModal
-        isModalOpen={isChoseBoardModalOpen}
-        onApproveClick={pieces => onChoseBoardModalApproveClick(pieces)}
-      />
+      <GameTimeContext.Provider value={gameTime}>
+        <ChoseBoardModal
+          isModalOpen={isChoseBoardModalOpen}
+          onApproveClick={pieces => onChoseBoardModalApproveClick(pieces)}
+        />
 
-      <GameOverModal
-        isModalOpen={isGameOverModalOpen}
-        onApproveClick={() => onGameOverModalApproveClick()}
-        title={gameOverModalTitle}
-      />
+        <GameOverModal
+          isModalOpen={isGameOverModalOpen}
+          onApproveClick={() => onGameOverModalApproveClick()}
+          title={gameOverModalTitle}
+          subtitle={gameOverModalSubtitle}
+        />
 
-      <Board
-        boardImages={boardImages}
-        defaultBackground={defaultImage}
-        onGameOver={title => onGameOver(title)}
-      />
-
-      {timeInMinutes && !isChoseBoardModalOpen && !isGameOverModalOpen && (
-        <Countdown
-          timeInMinutes={timeInMinutes}
+        <Board
+          boardImages={boardImages}
+          defaultBackground={defaultImage}
           onGameOver={title => onGameOver(title)}
         />
-      )}
+
+        {timeInMinutes && !isChoseBoardModalOpen && !isGameOverModalOpen && (
+          <Countdown
+            timeInMinutes={timeInMinutes}
+            onGameOver={title => onGameOver(title)}
+          />
+        )}
+      </GameTimeContext.Provider>
     </div>
   );
 }

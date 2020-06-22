@@ -13,9 +13,9 @@ export const TEXTS = {
     Countdown: {
       GameOverModal: {
         YouLostTitle: "Time is up!",
-        YouWinTitle: "Good job!",
-        subtitle: "Want to play again?",
-        approveButton: "Let's play"
+        YouWinTitle: "You did it!",
+        subtitle: "Time left on the clock: ",
+        approveButton: "Play again"
       }
     }
   }

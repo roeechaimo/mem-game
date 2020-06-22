@@ -2,9 +2,10 @@
 ✔ Fix black background to come from firebase instead of localy @done(20-06-12 15:07)
 ✔ Move counter to the bottom of the page. @done(20-06-12 15:39)
 ☐ Handle responsive 32 pieces game.
+☐ Fix double click effect on the same cell.
 ✔ Change texts. @done(20-06-12 15:49)
 ☐ Fetch texts from firebase.
-☐ Show result at the end of the game.
+✔ Show result at the end of the game. @done(20-06-22 22:25)
 ☐ Save images locally after fetching them from forebase.
 ☐ Create loader.
 ☐ Create loading page.

@@ -5,7 +5,7 @@ import { TEXTS } from "../../../texts";
 import AppButton from "../../../appButton/AppButton";
 
 function GameOverModal(props) {
-  const { isModalOpen, onApproveClick, title } = props;
+  const { isModalOpen, onApproveClick, title, subtitle } = props;
 
   return (
     <ReactModal
@@ -16,7 +16,9 @@ function GameOverModal(props) {
     >
       <h3>{title}</h3>
 
-      <h5>{TEXTS.GamePage.Countdown.GameOverModal.subtitle}</h5>
+      <h5>
+        {subtitle ? subtitle : TEXTS.GamePage.Countdown.GameOverModal.subtitle}
+      </h5>
 
       <AppButton
         text={TEXTS.GamePage.Countdown.GameOverModal.approveButton}

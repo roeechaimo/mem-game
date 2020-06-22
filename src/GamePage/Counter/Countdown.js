@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import { usePreviousState } from "../../hooks/UsePreviousState";
 import "./countdown.scss";
 import { TEXTS } from "../../texts";
+import { GameTimeContext } from "../../contexts/gameTimeContext";
 
 function Countdown(props) {
   const { timeInMinutes, onGameOver } = props;
@@ -11,6 +12,8 @@ function Countdown(props) {
   });
 
   const prevTimeState = usePreviousState(time);
+
+  const gameTime = useContext(GameTimeContext);
 
   const calculateTime = useCallback(() => {
     const { minutes, seconds } = time;
@@ -53,13 +56,15 @@ function Countdown(props) {
         return clearInterval(interval);
       }
 
+      gameTime.postGameTime({ minutes, seconds });
+
       setTime({ minutes, seconds });
     }, 1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [time, timeInMinutes, onGameOver, prevTimeState, calculateTime]);
+  }, [time, timeInMinutes, onGameOver, prevTimeState, calculateTime, gameTime]);
 
   let secondsAsString = time.seconds.toString();
   if (secondsAsString.length < 2) {
