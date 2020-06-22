@@ -12,7 +12,6 @@ function Cell(props) {
     style,
     defaultBackground
   } = props;
-  // const blackBackground = BLACK_BACKGROUND.src;
   const blackBackground = defaultBackground?.src;
 
   const src = isRevealed ? imageUrl : blackBackground;
