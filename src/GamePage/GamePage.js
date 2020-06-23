@@ -98,7 +98,10 @@ function GamePage() {
       setGameOverModalTitle(title);
 
       const { minutes, seconds } = gameTime?.gameTime;
-      let secondsAsStr = (seconds - 1)?.toString();
+      let secondsAsStr =
+        title === TEXTS.GamePage.Countdown.GameOverModal.YouLostTitle
+          ? (seconds - 1)?.toString()
+          : seconds;
 
       if (secondsAsStr?.length === 1) {
         secondsAsStr = `0${secondsAsStr}`;
