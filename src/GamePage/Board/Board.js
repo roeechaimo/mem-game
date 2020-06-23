@@ -107,7 +107,8 @@ function Board(props) {
 
       if (
         imagesState.activeCells[0] !== null &&
-        imagesState.activeCells[1] === null
+        imagesState.activeCells[1] === null &&
+        imagesState.activeCells[0] !== cellIndex
       ) {
         return setImagesState(prevState => ({
           ...prevState,
