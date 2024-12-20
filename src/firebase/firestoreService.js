@@ -1,16 +1,13 @@
-import firebase from "./firbase";
+import { collection, getDocs } from 'firebase/firestore';
+import { db, storage } from './firbase';
 
-const db = firebase.firestore();
-const storage = firebase.storage().ref();
-
-const COLLECTIONS = {
-  images: "board_images"
+export const COLLECTIONS = {
+  images: 'board_images',
 };
 
-const firstoreService = {
-  storage: storage,
-  bucketUrl: storage.child(COLLECTIONS.images),
-  getBoardImages: () => db.collection(COLLECTIONS.images).get()
+const firestoreService = {
+  storage,
+  getBoardImages: () => getDocs(collection(db, COLLECTIONS.images)),
 };
 
-export default firstoreService;
+export default firestoreService;
