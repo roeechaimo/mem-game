@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import ReactModal from "react-modal";
-import firstoreService from "../firebase/firestoreService";
-import { HELPERS } from "../helpers";
-import { TEXTS } from "../texts";
-import Board from "./Board/Board";
-import Countdown from "./Counter/Countdown";
-import "./gamePage.scss";
-import ChoseBoardModal from "./modals/ChoseBoardModal/ChoseBoardModal";
-import GameOverModal from "./modals/GameOverModal/GameOverModal";
-import { GameTimeContext } from "../contexts/gameTimeContext";
+import { getDownloadURL, ref } from 'firebase/storage';
+import React, { useEffect, useState } from 'react';
+import ReactModal from 'react-modal';
+import { GameTimeContext } from '../contexts/gameTimeContext';
+import firstoreService, { COLLECTIONS } from '../firebase/firestoreService';
+import { HELPERS } from '../helpers';
+import { TEXTS } from '../texts';
+import Board from './Board/Board';
+import Countdown from './Counter/Countdown';
+import './gamePage.scss';
+import ChoseBoardModal from './modals/ChoseBoardModal/ChoseBoardModal';
+import GameOverModal from './modals/GameOverModal/GameOverModal';
 
 function GamePage() {
   const [timeInMinutes, setTimeInMinutes] = useState(null);
@@ -23,21 +24,20 @@ function GamePage() {
   const [defaultImage, setDefaultImage] = useState(null);
   const [gameTime, setGameTime] = useState({
     gameTime: null,
-    postGameTime: time => setGameTime({ ...gameTime, gameTime: time })
+    postGameTime: (time) => setGameTime({ ...gameTime, gameTime: time }),
   });
 
   useEffect(() => {
     if (images === null) {
-      firstoreService.getBoardImages().then(collection => {
+      firstoreService.getBoardImages().then((collection) => {
         let docs = [];
         let defaultBackground;
-        collection.forEach(doc => {
+        collection.forEach((doc) => {
           const { id, src, isDefaultBackground } = doc.data();
-          const bucketUrlRef = firstoreService.bucketUrl;
-          bucketUrlRef
-            .child(src)
-            .getDownloadURL()
-            .then(url => {
+          const storagePath = `${COLLECTIONS.images}/${src}`;
+          const imageRef = ref(firstoreService.storage, storagePath);
+          getDownloadURL(imageRef)
+            .then((url) => {
               if (!isDefaultBackground) {
                 docs.push({ id, src: url });
               } else {
@@ -48,13 +48,16 @@ function GamePage() {
                 setDefaultImage(defaultBackground);
                 setImages(docs);
               }
+            })
+            .catch((error) => {
+              console.log(error);
             });
         });
       });
     }
   }, [images]);
 
-  const buildBoardImages = cellNumber => {
+  const buildBoardImages = (cellNumber) => {
     if (cellNumber) {
       const boardCellNumber = cellNumber / 2;
       const slicedImages = images.slice(0, boardCellNumber);
@@ -67,11 +70,11 @@ function GamePage() {
     return setBoardImages(cellNumber);
   };
 
-  const setTime = time => {
+  const setTime = (time) => {
     setTimeInMinutes(time);
   };
 
-  const onChoseBoardModalApproveClick = pieces => {
+  const onChoseBoardModalApproveClick = (pieces) => {
     setIsChoseBoardModalOpen(false);
     let time = 1;
     let cells = 16;
@@ -92,7 +95,7 @@ function GamePage() {
     setIsChoseBoardModalOpen(true);
   };
 
-  const onGameOver = title => {
+  const onGameOver = (title) => {
     buildBoardImages(null);
     if (title) {
       setGameOverModalTitle(title);
@@ -118,11 +121,11 @@ function GamePage() {
   };
 
   return (
-    <div className="container">
+    <div className='container'>
       <GameTimeContext.Provider value={gameTime}>
         <ChoseBoardModal
           isModalOpen={isChoseBoardModalOpen}
-          onApproveClick={pieces => onChoseBoardModalApproveClick(pieces)}
+          onApproveClick={(pieces) => onChoseBoardModalApproveClick(pieces)}
         />
 
         <GameOverModal
@@ -135,13 +138,13 @@ function GamePage() {
         <Board
           boardImages={boardImages}
           defaultBackground={defaultImage}
-          onGameOver={title => onGameOver(title)}
+          onGameOver={(title) => onGameOver(title)}
         />
 
         {timeInMinutes && !isChoseBoardModalOpen && !isGameOverModalOpen && (
           <Countdown
             timeInMinutes={timeInMinutes}
-            onGameOver={title => onGameOver(title)}
+            onGameOver={(title) => onGameOver(title)}
           />
         )}
       </GameTimeContext.Provider>
@@ -149,6 +152,6 @@ function GamePage() {
   );
 }
 
-ReactModal.setAppElement("#root");
+ReactModal.setAppElement('#root');
 
 export default GamePage;
