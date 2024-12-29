@@ -1,8 +1,8 @@
-import React from "react";
-import ReactModal from "react-modal";
-import "./gameOverModal.scss";
-import { TEXTS } from "../../../texts";
-import AppButton from "../../../appButton/AppButton";
+import React from 'react';
+import ReactModal from 'react-modal';
+import AppButton from '../../../appButton/AppButton';
+import { TEXTS } from '../../../texts';
+import './gameOverModal.scss';
 
 function GameOverModal(props) {
   const { isModalOpen, onApproveClick, title, subtitle } = props;
@@ -12,13 +12,11 @@ function GameOverModal(props) {
       isOpen={isModalOpen}
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
-      className="app-modal"
+      className='app-modal'
     >
       <h3>{title}</h3>
 
-      <h5>
-        {subtitle ? subtitle : TEXTS.GamePage.Countdown.GameOverModal.subtitle}
-      </h5>
+      <h5>{subtitle || ''}</h5>
 
       <AppButton
         text={TEXTS.GamePage.Countdown.GameOverModal.approveButton}
@@ -28,6 +26,6 @@ function GameOverModal(props) {
   );
 }
 
-ReactModal.setAppElement("#root");
+ReactModal.setAppElement('#root');
 
 export default GameOverModal;

@@ -50,7 +50,7 @@ function ChoseBoardModal(props) {
 
       <AppButton
         text={TEXTS.GamePage.ChoseBoardModal.approveButton}
-        onClick={() => onApproveClick(pieces)}
+        onClick={() => onApproveClick(pieces, isCounterEnabled)}
       />
     </ReactModal>
   );

@@ -74,7 +74,7 @@ function GamePage() {
     setTimeInMinutes(time);
   };
 
-  const onChoseBoardModalApproveClick = (pieces) => {
+  const onChoseBoardModalApproveClick = (pieces, isCounterEnabled) => {
     setIsChoseBoardModalOpen(false);
     let time = 1;
     let cells = 16;
@@ -84,7 +84,9 @@ function GamePage() {
       cells = 32;
     }
 
-    setTime(time);
+    if (isCounterEnabled) {
+      setTime(time);
+    }
 
     buildBoardImages(cells);
   };
@@ -100,19 +102,21 @@ function GamePage() {
     if (title) {
       setGameOverModalTitle(title);
 
-      const { minutes, seconds } = gameTime?.gameTime;
-      let secondsAsStr =
-        title === TEXTS.GamePage.Countdown.GameOverModal.YouLostTitle
-          ? (seconds - 1)?.toString()
-          : seconds;
+      if (gameTime?.gameTime) {
+        const { minutes, seconds } = gameTime?.gameTime;
+        let secondsAsStr =
+          title === TEXTS.GamePage.Countdown.GameOverModal.YouLostTitle
+            ? (seconds - 1)?.toString()
+            : seconds;
 
-      if (secondsAsStr?.length === 1) {
-        secondsAsStr = `0${secondsAsStr}`;
+        if (secondsAsStr?.length === 1) {
+          secondsAsStr = `0${secondsAsStr}`;
+        }
+
+        setGameOverModalSubtitle(
+          `${TEXTS.GamePage.Countdown.GameOverModal.subtitle}0${minutes}:${secondsAsStr}`
+        );
       }
-
-      setGameOverModalSubtitle(
-        `${TEXTS.GamePage.Countdown.GameOverModal.subtitle}0${minutes}:${secondsAsStr}`
-      );
     }
 
     setTimeInMinutes(null);
@@ -125,7 +129,9 @@ function GamePage() {
       <GameTimeContext.Provider value={gameTime}>
         <ChoseBoardModal
           isModalOpen={isChoseBoardModalOpen}
-          onApproveClick={(pieces) => onChoseBoardModalApproveClick(pieces)}
+          onApproveClick={(pieces, isCounterEnabled) =>
+            onChoseBoardModalApproveClick(pieces, isCounterEnabled)
+          }
         />
 
         <GameOverModal
