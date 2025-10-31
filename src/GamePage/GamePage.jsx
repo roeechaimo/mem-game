@@ -1,8 +1,7 @@
-import { getDownloadURL, ref } from 'firebase/storage';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ReactModal from 'react-modal';
+import { BLACK_BACKGROUND, IMAGES } from '../appData/images';
 import { GameTimeContext } from '../contexts/gameTimeContext';
-import firstoreService, { COLLECTIONS } from '../firebase/firestoreService';
 import { HELPERS } from '../helpers';
 import { TEXTS } from '../texts';
 import Board from './Board/Board';
@@ -20,48 +19,16 @@ function GamePage() {
   );
   const [gameOverModalSubtitle, setGameOverModalSubtitle] = useState(null);
   const [boardImages, setBoardImages] = useState(null);
-  const [images, setImages] = useState(null);
-  const [defaultImage, setDefaultImage] = useState(null);
   const [gameTime, setGameTime] = useState({
     gameTime: null,
     postGameTime: (time) => setGameTime({ ...gameTime, gameTime: time }),
   });
 
-  useEffect(() => {
-    if (images === null) {
-      firstoreService.getBoardImages().then((collection) => {
-        let docs = [];
-        let defaultBackground;
-        collection.forEach((doc) => {
-          const { id, src, isDefaultBackground } = doc.data();
-          const storagePath = `${COLLECTIONS.images}/${src}`;
-          const imageRef = ref(firstoreService.storage, storagePath);
-          getDownloadURL(imageRef)
-            .then((url) => {
-              if (!isDefaultBackground) {
-                docs.push({ id, src: url });
-              } else {
-                defaultBackground = { id, src: url };
-              }
-
-              if (docs.length === collection.size - 1) {
-                setDefaultImage(defaultBackground);
-                setImages(docs);
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
-      });
-    }
-  }, [images]);
-
   const buildBoardImages = (cellNumber) => {
     if (cellNumber) {
       const boardCellNumber = cellNumber / 2;
-      const slicedImages = images.slice(0, boardCellNumber);
-      const slicedImages_1 = images.slice(0, boardCellNumber);
+      const slicedImages = IMAGES.slice(0, boardCellNumber);
+      const slicedImages_1 = IMAGES.slice(0, boardCellNumber);
       const imagesDoubbled = [...slicedImages, ...slicedImages_1];
 
       return setBoardImages(HELPERS.shuffleArray(imagesDoubbled));
@@ -143,7 +110,7 @@ function GamePage() {
 
         <Board
           boardImages={boardImages}
-          defaultBackground={defaultImage}
+          defaultBackground={BLACK_BACKGROUND}
           onGameOver={(title) => onGameOver(title)}
         />
 
