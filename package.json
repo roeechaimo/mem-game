@@ -11,7 +11,7 @@
     "deploy:preview": "npm run build && firebase hosting:channel:deploy preview-$npm_package_version --expires 7d"
   },
   "dependencies": {
-    "firebase": "^10.7.1",
+    "firebase": "^12.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
@@ -22,6 +22,10 @@
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.0.8"
+    "vite": "^5.4.14"
+  },
+  "overrides": {
+    "lodash": "^4.17.23",
+    "rollup": "^4.59.0"
   }
 }
