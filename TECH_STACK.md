@@ -13,7 +13,7 @@ This file locks the technologies, versions, and patterns used in this project. A
 ## 📦 Key Libraries
 | Category  | Library / Version | Note |
 | :-------- | :---------------- | :--- |
-| Framework |         | -    |
+| Framework | Vite        | 5.0.8    |
 | Styling   | SCSS          | -    |
 | Database  | None         | -    |
 
