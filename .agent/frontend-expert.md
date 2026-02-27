@@ -1,0 +1,1 @@
+/Users/roeechaimowicz/Documents/projects/ai-meta-config/personas/frontend-expert.md
