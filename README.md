@@ -1,68 +1,160 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# mem-game
 
-## Available Scripts
+A browser-based memory card game: flip pairs, beat the clock, and try to clear the board. Built for casual players who want a short, polished web game.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Board sizes**: 16 or 32 cards (8 or 16 pairs)
+- **Optional countdown**: timed mode with win/lose feedback
+- **Game flow**: choose board settings → play → game-over modal → play again
+- **Firebase-ready**: Firestore/Storage clients and env-based config (see [Firebase](#firebase))
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tech stack
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+| Area | Choice |
+|------|--------|
+| UI | React 18, functional components, Context API |
+| Build | [Vite](https://vitejs.dev/) 7 |
+| Routing | React Router 6 |
+| Styling | SCSS (component-scoped + `src/styles/variables.scss`) |
+| Backend / hosting | Firebase (Firestore, Storage, Hosting) |
+| Runtime | Node.js **v24.3.0** (see `TECH_STACK.md`) |
 
-### `npm test`
+Authoritative stack and patterns: [`TECH_STACK.md`](TECH_STACK.md). Product goals and scope: [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md).
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+- **Node.js** v24.3.0 (recommended; align with `TECH_STACK.md`)
+- **npm** (comes with Node)
+- **Firebase CLI** — only for deploy scripts (`npm i -g firebase-tools`, then `firebase login`)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Quick start
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```bash
+git clone <repository-url>
+cd mem-game
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create a `.env` file in the project root (see [Environment variables](#environment-variables)), then:
 
-### `npm run eject`
+```bash
+npm run dev
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Open the URL Vite prints (default: [http://localhost:5173](http://localhost:5173)).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Environment variables
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Firebase is configured via Vite env vars (loaded from `.env`; never commit secrets). Required keys match `src/firebase/firbase.js`:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```env
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_DATABASE_URL=
+VITE_MEASURMENT_ID=
+```
 
-## Learn More
+Copy values from the [Firebase console](https://console.firebase.google.com/) for project **`mem-game-a94ab`** (see `.firebaserc`).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## npm scripts
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Script | Command | Purpose |
+|--------|---------|---------|
+| `dev` | `vite` | Local development with HMR |
+| `build` | `vite build` | Production build → `dist/` |
+| `preview` | `vite preview` | Serve `dist/` locally (smoke-test before deploy) |
+| `deploy` | `npm run build && firebase deploy` | Build and deploy to Firebase Hosting |
+| `deploy:preview` | `npm run build && firebase hosting:channel:deploy preview-$npm_package_version --expires 7d` | Temporary preview channel (7-day expiry) |
 
-### Code Splitting
+There is no `npm test` script today; legacy test files under `src/` are not wired to a runner.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Project structure
 
-### Analyzing the Bundle Size
+```
+mem-game/
+├── index.html              # Vite entry HTML
+├── vite.config.js
+├── firebase.json           # Hosting: public = dist, SPA rewrites
+├── .firebaserc             # Default Firebase project
+├── public/                 # Static assets (images, fonts, favicon)
+├── src/
+│   ├── index.jsx           # App bootstrap
+│   ├── App.jsx             # Router shell + header
+│   ├── routes.js           # Route table
+│   ├── GamePage/           # Game board, countdown, modals
+│   ├── appData/            # Local image constants
+│   ├── firebase/           # Firebase init + Firestore helpers
+│   ├── contexts/           # React context (e.g. game time)
+│   ├── components/         # Shared UI (e.g. Toggle)
+│   ├── hooks/              # Custom hooks
+│   └── styles/             # Global SCSS variables
+├── PROJECT_CONTEXT.md      # Product mission and scope
+├── TECH_STACK.md           # Locked stack and conventions
+└── AGENTS.md               # AI/agent workflow standards
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Development conventions
 
-### Making a Progressive Web App
+- **Components**: functional only; no class components (`TECH_STACK.md`).
+- **State**: React Context for cross-cutting game state; local `useState` in screens.
+- **Data**: constants in `src/appData/` and `src/texts.js`; Firestore collection `board_images` via `firestoreService`.
+- **Styling**: SCSS per feature folder; shared tokens in `src/styles/variables.scss`.
+- **Paths**: feature folders use PascalCase components (e.g. `GamePage/Board/Board.jsx`).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## Firebase
 
-### Advanced Configuration
+- **Project ID**: `mem-game-a94ab` (`.firebaserc`)
+- **Hosting**: `dist/` after `npm run build`; all routes rewrite to `index.html` (`firebase.json`)
+- **Services in app**: Firestore (`db`), Storage (`storage`); board images collection: `board_images`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Card faces and backgrounds are served from `public/images/` today; Firestore integration for dynamic assets is partially in place (`firestoreService.getBoardImages`).
 
-### Deployment
+## Deployment runbook
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### Production
 
-### `npm run build` fails to minify
+1. Ensure `.env` has production Firebase values (or CI secrets).
+2. `npm run build` — confirm `dist/` looks correct.
+3. Optional: `npm run preview` and spot-check locally.
+4. `firebase login` (once per machine) if not already authenticated.
+5. `npm run deploy` — builds and runs `firebase deploy` to the default project.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Preview channel
+
+```bash
+npm run deploy:preview
+```
+
+Deploys to a versioned preview channel (`preview-0.1.0` from `package.json` version), expires in 7 days.
+
+### Rollback / verify
+
+- Use [Firebase Hosting console](https://console.firebase.google.com/project/mem-game-a94ab/hosting) for release history and rollback.
+- After deploy, hard-refresh the live URL to bypass CDN cache.
+
+## Documentation for contributors
+
+| Doc | Use when |
+|-----|----------|
+| [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) | Understanding goals, audience, and out-of-scope work |
+| [`TECH_STACK.md`](TECH_STACK.md) | Choosing libraries, patterns, and restrictions |
+| [`AGENTS.md`](AGENTS.md) | Working with AI agents / skills in this repo |
+| [`TODO`](TODO) | Informal backlog |
+
+## Troubleshooting
+
+| Issue | What to try |
+|-------|-------------|
+| Blank app / Firebase errors | Check `.env` keys and that `VITE_*` names match `src/firebase/firbase.js` |
+| `firebase: command not found` | Install Firebase CLI globally |
+| Deploy serves old assets | Run `npm run build` before deploy; clear browser cache |
+| Port in use (dev) | `npm run dev -- --port 5174` |
+
+## License
+
+Private project (`"private": true` in `package.json`). Add a license file here if you open-source the repo.
