@@ -1,0 +1,1 @@
+/Users/roeechaimowicz/documents/projects/ai-meta-config/personas/product-manager.md
